@@ -98,7 +98,7 @@ mode turned on).
 
 Ok, if you've followed along until now, you should have successfully loaded
 your extension into chrome. If it didn't work for you, this might be a good
-time to ask for help (assuming your reading this during our WIT meeting),
+time to ask for help (assuming you're reading this during our WIT meeting),
 alternatively, you can continue to stage02 where the file is completed for
 you by using a 'git checkout' command:
 

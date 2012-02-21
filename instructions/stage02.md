@@ -64,7 +64,7 @@ manifest.
         "name": "My Extension",
         ...,
         //new content goes here
-        "background_page": "background.html"
+        "background_page": "background.html",
         "browser_action": {
             "default_icon": "icon48.png",
             "default_title": "My Extension",

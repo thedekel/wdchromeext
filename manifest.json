@@ -1,7 +1,7 @@
 {
     //previous content from stage01
     "name": "My Extension",
-    "version": "1.1",
+    "version": "1.2",
 
     "icons": {"48": "icon48.png"},
     "description": "A simple extension that doesn't do much" ,

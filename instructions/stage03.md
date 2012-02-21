@@ -59,12 +59,12 @@ Here's the basic HTML for the page:
             }
         </script>
       </head>
-      <body onload="load_reconds()">
+      <body onload="load_records()">
         <h2>Options</h2>
         <p>You can change the options for the extension here</p>
         <p><label>Keep <input type="number" id="recnum" /> links</label></p>
         <p>View links</p>
-        <select id="records" multiple="multiple" size="20">
+        <select id="records" multiple="multiple" size="20" style="width:300px">
         </select>
       </body>
     </html>

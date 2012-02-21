@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <script>
+        function save_records(){
+            //load the DOM elements into our JavaScript as Variables
+            var recnum = document.getElementById('recnum').value;
+            var records = document.getElementById('records').children;
+            //create an empty array
+            var recs = [];
+            for (i=0; i<records.length; i++){
+                //append the innerHTML (the text you see) for all the links in the <select>
+                recs.push(records[i].innerHTML);
+            }
+            //save our records to the synchronizing localStorage
+            localStorage.recs = JSON.stringify(recs);
+            localStorage.recnum = recnum;
+        }
+        function load_records(){
+            //load information from the sync storage into JavaScript variables
+            var recnum = localStorage.recnum;
+            var records = JSON.parse(localStorage.recs);
+            //set the 'recnum' box
+            document.getElementById("recnum").value = recnum;
+            //clear the old contents of 'records'
+            document.getElementById("records").innerHTML = "";
+            //for each link found in the variable records, append a new <option> to 'records'
+            for (i=0; i < records.length; i++){
+                document.getElementById("records").appendChild(
+                    (function(text){
+                        var q = document.createElement("option");
+                        q.innerHTML = text;
+                        return q;
+                    })(records[i])
+                )
+            }
+        }
+    </script>
+  </head>
+  <body onload="load_records()">
+    <h2>Options</h2>
+    <p>You can change the options for the extension here</p>
+    <p><label>Keep <input type="number" id="recnum" onchange="save_records()" /> links</label></p>
+    <p>View links</p>
+    <select id="records" multiple="multiple" size="20" style="width:300px">
+    </select>
+  </body>
+</html>

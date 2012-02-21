@@ -2,7 +2,6 @@
 
 These are the instructions for stage04.
 
-
 ## Background
 
 Now that our extension has the capacity to store our options, it's probably a good idea

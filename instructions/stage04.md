@@ -2,7 +2,6 @@
 
 These are the instructions for stage04.
 
-
 ## Background
 
 Now that our extension has the capacity to store our options, it's probably a good idea
@@ -40,8 +39,10 @@ These content script also have access to the same localStorage used by the other
 our extension (which is where we stored our options).
 
 Now to the actual code. What we want to do is scrap all the links on a page and store
-them in our localStorage. We would want to put this in a new javascript file, let's call
-it "linkscrap.js"
+them in our localStorage. Since the content script is a part of the page it's on, we can't
+use localStorage as we did before. Therefore we'll use an "extension.sendRequest()"
+command and have our background.html page handle saving the data for us. We would want 
+to put this in a new javascript file, let's call it "linkscrap.js"
 
     -------------------------
     linkscrap.js
@@ -49,20 +50,45 @@ it "linkscrap.js"
     // fetch all the anchor (<a>) tags, save into a variable
     var atags = document.getElementsByTagName("a");
     //load the currently saved records into a javascript variable
-    var recs = JSON.parse(localStorage.records);
+    var recs = [];
+    if (localStorage.recs){
+        recs = JSON.parse(localStorage.recs);
+    }
+    var nums = 100;
+    if (localStorage.recnum){
+        nums = parseInt(localStorage.recnum);
+    }
     //iterate over all elements of this new list
     for (i=0; i<atags.length; i++){
+        console.log(atags[i].href);
         //check (using regex) if the href field of the <a> tag is a valid link
         if (/^http:./i.test(atags[i].href)){
             //check to see the length of our records and remove an item if it's at the max
-            if (recs.length == localStorage.recnum){
+            if (recs.length == nums){
                 recs.shift();
             }
-            recs.push(atags[i].href;
+            //append the href of the link in question to an array
+            recs.push(atags[i].href);
         }
     }
-    //save our new recs object to localStorage
-    localStorage.records = JSON.stringify(recs);
+    //send a JSON object of the array we made to our background.html page
+    chrome.extension.sendRequest(JSON.stringify(recs));
+
+Now we need to add a simple intercepting event handler for this request in our
+background.html
+
+    ------------------
+    background.html
+    ------------------
+    <html>
+        <script>
+            localStorage.recnum = localStorage.recnum || 100;
+            localStorage.recs = localStorage.recs || JSON.stringify([]);
+            chrome.extension.onRequest.addListener(function(req){
+                localStorage.recs = req;
+            });
+        </script>
+    </html>
 
 and now we need to let our manifest.json file know that we have a content script we would
 like it to run on every page. Add the following to your manifest file (note that if this

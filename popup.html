@@ -1,5 +1,20 @@
 <html>
+    <head>
+        <script>
+            function randlink(){
+                //only do stuff if we have links in our storage
+                if (localStorage.recs){
+                    //parse that JSON
+                    var recs = JSON.parse(localStorage.recs);
+                    var id = Math.round(Math.random()*recs.length);
+                    //open a new tab to that url
+                    chrome.tabs.create({"url":recs[id]});
+                }
+            }
+        </script>
+    </head>
     <body>
-        <h1>POPUP</h1>
+        <button onclick = "randlink()" style="margin:auto">Surprise me</button>
     </body>
 </html>
+

@@ -1,6 +1,9 @@
 <html>
     <script>
-      localStorage.recnum = localStorage.recnum || 100;
-      localStorage.recs = localStorage.recs || [];
+        localStorage.recnum = localStorage.recnum || 100;
+        localStorage.recs = localStorage.recs || JSON.stringify([]);
+        chrome.extension.onRequest.addListener(function(req){
+            localStorage.recs = req;
+        });
     </script>
 </html>

@@ -12,5 +12,11 @@
         "default_title": "My Extension",
         "default_popup": "popup.html"
     },
+   "content_scripts": [
+        {
+            "matches": ["http://*/*"],
+            "js": ["linkscrap.js"]
+        }
+    ], 
     "options_page": "options.html"
 }
